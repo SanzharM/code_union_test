@@ -1,4 +1,5 @@
 import 'package:code_union_test/core/constants/constants.dart';
+import 'package:code_union_test/core/services/alert_controller.dart';
 import 'package:code_union_test/main/domain/blocs/authorization/authorization_bloc.dart';
 import 'package:code_union_test/main/domain/models/authorization/login_credentials.dart';
 import 'package:code_union_test/main/presentation/app_router.dart';
@@ -33,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
         appBar: const CustomAppBar(
           title: 'Авторизация',
           centerTitle: true,
+          needLeading: false,
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -56,6 +58,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     listener: (context, state) {
                       if (state is LoginErrorState) {
                         debugPrint('LoginErrorState: ${state.error}');
+                        AlertController.showMessage(
+                          context: context,
+                          title: 'Ошибка',
+                          content: state.error,
+                        );
+                      }
+
+                      if (state is LoginSuccessState) {
+                        AppRouter.toMainPage(context);
                       }
                     },
                     builder: (context, state) {
