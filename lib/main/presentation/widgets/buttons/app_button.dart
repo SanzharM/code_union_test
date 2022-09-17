@@ -28,10 +28,13 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoButton(
       onPressed: onPressed,
+      color: backgroundColor ?? AppColors.blue,
       padding: EdgeInsets.zero,
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 200),
-        child: Padding(
+        child: Container(
+          width: double.maxFinite,
+          alignment: Alignment.center,
           padding: padding ?? const EdgeInsets.all(AppConstraints.padding),
           child: Text(
             title,

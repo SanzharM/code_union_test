@@ -12,7 +12,10 @@ class LoginCredentials {
   }
 
   Map<String, dynamic> toMap() => {
-        'login': login,
+        'email': login,
         'password': password,
       };
+
+  bool get isValid => (login?.isNotEmpty ?? false) && isPasswordValid;
+  bool get isPasswordValid => (password?.isNotEmpty ?? false) && (password?.length ?? 0) >= 8;
 }
