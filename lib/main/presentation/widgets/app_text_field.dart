@@ -11,6 +11,7 @@ class AppTextField extends StatefulWidget {
     this.onEditingComplete,
     this.needValidator = true,
     this.readonly = false,
+    this.isObscured = false,
     this.hintText,
     this.hintStyle,
     this.inputType = TextInputType.text,
@@ -18,6 +19,7 @@ class AppTextField extends StatefulWidget {
     this.maxLines,
     this.prefix,
     this.prefixIcon,
+    this.icon,
   }) : super(key: key);
 
   final String? text;
@@ -27,6 +29,7 @@ class AppTextField extends StatefulWidget {
   final void Function()? onEditingComplete;
   final bool needValidator;
   final bool readonly;
+  final bool isObscured;
   final String? hintText;
   final TextStyle? hintStyle;
   final TextInputType inputType;
@@ -34,6 +37,7 @@ class AppTextField extends StatefulWidget {
   final int? maxLines;
   final Widget? prefix;
   final Widget? prefixIcon;
+  final Widget? icon;
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
@@ -64,12 +68,13 @@ class _AppTextFieldState extends State<AppTextField> {
       keyboardType: widget.inputType,
       maxLength: widget.maxLength ?? 300,
       maxLines: widget.maxLines,
+      obscureText: widget.isObscured,
       readOnly: widget.readonly,
       validator: widget.needValidator ? _textValidator : null,
       style: Theme.of(context).textTheme.bodyMedium?.copyWith(decoration: TextDecoration.none),
       decoration: InputDecoration(
         labelText: widget.label,
-        labelStyle: Theme.of(context).textTheme.bodyMedium,
+        labelStyle: Theme.of(context).textTheme.bodyMedium?.apply(color: AppColors.greyLight),
         floatingLabelStyle: Theme.of(context).textTheme.bodyMedium,
         floatingLabelAlignment: FloatingLabelAlignment.start,
         hintText: widget.hintText,
@@ -84,13 +89,14 @@ class _AppTextFieldState extends State<AppTextField> {
         errorBorder: InputBorder.none,
         prefix: widget.prefix,
         prefixIcon: widget.prefixIcon,
+        suffixIcon: widget.icon,
       ),
     );
   }
 
   String? _textValidator(String? value) {
     if (value?.isEmpty ?? true) {
-      return 'Field cannot be empty';
+      return '';
     }
     return null;
   }

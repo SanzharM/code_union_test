@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 class AppIconButton extends StatelessWidget {
   const AppIconButton({
@@ -14,6 +13,7 @@ class AppIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
+      padding: EdgeInsets.zero,
       onPressed: onPressed,
       child: icon,
     );

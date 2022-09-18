@@ -5,4 +5,5 @@ class ApiEndpoints {
   static const registration = '/api/v1/auth/registration/customer/new';
 
   static const getProfile = '/api/v1/auth/login/profile';
+  static const getFeed = '/api/v1/restaurants/all';
 }

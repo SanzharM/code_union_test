@@ -7,6 +7,10 @@ class LocalStorage {
 
   FlutterSecureStorage get storage => _storage;
 
+  Future<String?> getAccessToken() async => await _storage.read(key: _accessTokenKey);
+
+  Future<String?> getRefreshToken() async => await _storage.read(key: _refreshTokenKey);
+
   Future<void> setAccessToken(String? token) async {
     if (token?.isEmpty ?? true) {
       return await _storage.delete(key: _accessTokenKey);

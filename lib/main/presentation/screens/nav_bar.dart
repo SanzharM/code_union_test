@@ -1,9 +1,12 @@
 import 'package:code_union_test/core/constants/app_colors.dart';
 import 'package:code_union_test/main/domain/blocs/feed/feed_bloc.dart';
 import 'package:code_union_test/main/domain/blocs/profile/profile_bloc.dart';
+import 'package:code_union_test/main/presentation/screens/feed/feed_screen.dart';
 import 'package:code_union_test/main/presentation/screens/profile/profile_screen.dart';
 import 'package:code_union_test/main/presentation/widgets/app_icon.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NavBar extends StatefulWidget {
@@ -19,7 +22,7 @@ class _NavBarState extends State<NavBar> {
   final List<Widget> tabs = [
     BlocProvider<FeedBloc>(
       create: (context) => FeedBloc(),
-      child: const ProfileScreen(),
+      child: const FeedScreen(),
     ),
     BlocProvider<ProfileBloc>(
       create: (context) => ProfileBloc(),
@@ -37,37 +40,36 @@ class _NavBarState extends State<NavBar> {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoTabBar(
-      currentIndex: _currentIndex,
-      onTap: (index) {
-        setState(() => _currentIndex = index);
-      },
-      items: <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: AppIcon(
-            name: 'assets/feed.png',
-            color: _currentIndex == 0 ? AppColors.blue : AppColors.black,
+    return Scaffold(
+      body: IndexedStack(
+        index: _currentIndex,
+        children: tabs,
+      ),
+      bottomNavigationBar: CupertinoTabBar(
+        border: null,
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() => _currentIndex = index);
+          HapticFeedback.lightImpact();
+        },
+        backgroundColor: AppColors.transparent,
+        items: [
+          BottomNavigationBarItem(
+            icon: AppIcon(name: 'assets/feed.png', size: 24.0, color: getColor(0)),
           ),
-        ),
-        BottomNavigationBarItem(
-          icon: AppIcon(
-            name: 'assets/heart.png',
-            color: _currentIndex == 0 ? AppColors.blue : AppColors.black,
+          BottomNavigationBarItem(
+            icon: AppIcon(name: 'assets/map.png', size: 24.0, color: getColor(1)),
           ),
-        ),
-        BottomNavigationBarItem(
-          icon: AppIcon(
-            name: 'assets/map.png',
-            color: _currentIndex == 0 ? AppColors.blue : AppColors.black,
+          BottomNavigationBarItem(
+            icon: AppIcon(name: 'assets/heart.png', size: 24.0, color: getColor(2)),
           ),
-        ),
-        BottomNavigationBarItem(
-          icon: AppIcon(
-            name: 'assets/profile.png',
-            color: _currentIndex == 0 ? AppColors.blue : AppColors.black,
+          BottomNavigationBarItem(
+            icon: AppIcon(name: 'assets/profile.png', size: 24.0, color: getColor(3)),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
+
+  Color getColor(int index) => _currentIndex == index ? AppColors.blue : AppColors.black;
 }

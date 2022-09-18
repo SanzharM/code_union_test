@@ -5,7 +5,10 @@ import 'package:code_union_test/main/domain/models/authorization/login_credentia
 import 'package:code_union_test/main/presentation/app_router.dart';
 import 'package:code_union_test/main/presentation/widgets/app_text_field.dart';
 import 'package:code_union_test/main/presentation/widgets/buttons/app_button.dart';
+import 'package:code_union_test/main/presentation/widgets/buttons/app_icon_button.dart';
 import 'package:code_union_test/main/presentation/widgets/custom_appbar.dart';
+import 'package:code_union_test/main/presentation/widgets/separator.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,8 +20,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
   LoginCredentials _credentials = const LoginCredentials();
   late AuthorizationBloc bloc;
+
+  bool isObscured = true;
 
   @override
   void initState() {
@@ -39,18 +45,43 @@ class _LoginScreenState extends State<LoginScreen> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            AppTextField(
-              label: 'Логин или почта',
-              text: _credentials.login,
-              onChanged: (value) => setState(() => _credentials = _credentials.copyWith(login: value)),
-            ),
-            AppTextField(
-              label: 'Пароль',
-              text: _credentials.password,
-              onChanged: (value) => setState(() => _credentials = _credentials.copyWith(password: value)),
+            Container(
+              margin: const EdgeInsets.only(bottom: AppConstraints.padding),
+              padding: const EdgeInsets.symmetric(horizontal: AppConstraints.padding),
+              color: AppColors.white,
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    AppTextField(
+                      label: 'Логин или почта',
+                      text: _credentials.login,
+                      onChanged: (value) => setState(() => _credentials = _credentials.copyWith(login: value)),
+                      needValidator: true,
+                    ),
+                    const HorizontalSepartor(),
+                    AppTextField(
+                      label: 'Пароль',
+                      text: _credentials.password,
+                      isObscured: isObscured,
+                      maxLines: 1,
+                      icon: AppIconButton(
+                        icon: Icon(
+                          isObscured ? CupertinoIcons.eye_slash : CupertinoIcons.eye,
+                          size: 22.0,
+                          color: AppColors.black,
+                        ),
+                        onPressed: () => setState(() => isObscured = !isObscured),
+                      ),
+                      onChanged: (value) => setState(() => _credentials = _credentials.copyWith(password: value)),
+                      needValidator: true,
+                    ),
+                  ],
+                ),
+              ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(AppConstraints.padding),
               child: Column(
                 children: [
                   BlocConsumer<AuthorizationBloc, AuthorizationState>(
@@ -76,12 +107,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         isLoading: isLoading,
                         onPressed: () {
                           if (isLoading) return;
+                          _formKey.currentState?.validate();
                           bloc.login(_credentials);
                         },
                       );
                     },
                   ),
-                  const SizedBox(height: AppConstraints.padding / 2),
+                  const SizedBox(height: AppConstraints.padding),
                   AppButton(
                     title: 'Регистрация',
                     onPressed: () => AppRouter.toRegistration(context),

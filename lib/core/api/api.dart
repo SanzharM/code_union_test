@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:code_union_test/core/local_storage/local_storage.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -12,7 +13,7 @@ enum Method { get, post, put, delete }
 
 class Api {
   // static const _headers = {'Content-type': 'application/json'};
-  static const Map<String, String> _headers = {};
+  static final Map<String, String> _headers = {};
 
   static Future<bool> _checkInternetConnection() async {
     final result = await Connectivity().checkConnectivity();
@@ -26,6 +27,7 @@ class Api {
     required Uri route,
     required Method method,
     Map<String, dynamic>? params,
+    bool needToken = false,
     Duration timeout = const Duration(seconds: 15),
   }) async {
     final hasConnection = await _checkInternetConnection();
@@ -34,6 +36,10 @@ class Api {
     }
 
     http.Response? response;
+
+    if (needToken) {
+      _headers.addAll({'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'});
+    }
 
     try {
       switch (method) {
@@ -103,7 +109,7 @@ class Api {
 
   static void logResponse(http.Response response, {dynamic params}) {
     debugPrint('\nURL: ${response.request?.url}');
-    debugPrint('Headers: ${response.headers}');
+    debugPrint('Headers: ${response.request?.headers}');
     debugPrint('Method: ${response.request?.method}');
     debugPrint('Status Code: ${response.statusCode}');
     if (params != null) debugPrint('Params: $params');

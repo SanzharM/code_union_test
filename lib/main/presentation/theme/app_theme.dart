@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 class AppTheme {
   ThemeData get defaultTheme => ThemeData(
         scaffoldBackgroundColor: AppColors.greyBackground,
-        // bottomAppBarColor: AppColors.snow,
         backgroundColor: AppColors.greyLight,
         appBarTheme: const AppBarTheme(
           systemOverlayStyle: SystemUiOverlayStyle.dark,
@@ -17,12 +16,6 @@ class AppTheme {
           titleSpacing: 0,
         ),
         fontFamily: AppStyles.fontFamily,
-        // inputDecorationTheme: const InputDecorationTheme(
-        //   hintStyle: TextStyle(color: AppColors.black),
-        //   labelStyle: TextStyle(color: AppColors.black),
-        //   errorStyle: TextStyle(color: AppColors.lightRed),
-        // ),
-
         textTheme: const TextTheme(
           // Headlines
           headlineLarge: AppStyles.headlineLarge,
@@ -64,7 +57,7 @@ class AppTheme {
             textStyle: TextStyle(fontFamily: AppStyles.fontFamily, color: AppColors.black, fontSize: 16),
           ),
         ),
-        iconTheme: const IconThemeData(color: AppColors.blue, size: 24),
+        iconTheme: const IconThemeData(color: AppColors.black, size: 24),
         primaryColor: AppColors.blue,
         brightness: Brightness.light,
         canvasColor: AppColors.greyLight,

@@ -11,4 +11,5 @@ class AppColors {
   static const red = Color(0xffEC3A4D);
   static const greyBackground = Color(0xffE5E5E5);
   static const greyLight = Color(0xffE0E6ED);
+  static const greyDark = Color(0xff929292);
 }
