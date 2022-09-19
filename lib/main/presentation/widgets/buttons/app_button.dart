@@ -9,6 +9,7 @@ class AppButton extends StatelessWidget {
     this.onPressed,
     this.isLoading = false,
     this.padding,
+    this.alignment,
     this.textStyle,
     this.textColor,
     this.backgroundColor,
@@ -18,6 +19,7 @@ class AppButton extends StatelessWidget {
   final void Function()? onPressed;
   final bool isLoading;
 
+  final Alignment? alignment;
   final EdgeInsets? padding;
   final TextStyle? textStyle;
 
@@ -34,7 +36,7 @@ class AppButton extends StatelessWidget {
         duration: const Duration(milliseconds: 200),
         child: Container(
           width: double.maxFinite,
-          alignment: Alignment.center,
+          alignment: alignment ?? Alignment.center,
           padding: padding ?? const EdgeInsets.all(AppConstraints.padding),
           child: Text(
             title,

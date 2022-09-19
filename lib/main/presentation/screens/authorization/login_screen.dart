@@ -33,6 +33,12 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   @override
+  void dispose() {
+    bloc.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: FocusScope.of(context).hasFocus ? () => FocusScope.of(context).unfocus() : null,
