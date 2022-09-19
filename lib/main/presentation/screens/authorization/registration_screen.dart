@@ -2,6 +2,7 @@ import 'package:code_union_test/core/constants/constants.dart';
 import 'package:code_union_test/core/services/alert_controller.dart';
 import 'package:code_union_test/main/domain/blocs/authorization/authorization_bloc.dart';
 import 'package:code_union_test/main/domain/models/authorization/registration_credentials.dart';
+import 'package:code_union_test/main/presentation/app_router.dart';
 import 'package:code_union_test/main/presentation/widgets/app_text_field.dart';
 import 'package:code_union_test/main/presentation/widgets/buttons/app_button.dart';
 import 'package:code_union_test/main/presentation/widgets/buttons/app_icon_button.dart';
@@ -105,7 +106,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               AlertController.showMessage(context: context, title: 'Ошибка', content: state.error);
             }
             if (state is RegistrationSuccessState) {
-              Navigator.of(context).pop();
+              AppRouter.back(context);
             }
           },
           builder: (context, state) {

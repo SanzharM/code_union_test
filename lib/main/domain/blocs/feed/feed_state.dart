@@ -16,3 +16,8 @@ class PostsLoadedState extends FeedState {
   final List<Post> posts;
   PostsLoadedState(this.posts);
 }
+
+class PostsRefreshedState extends FeedState {
+  final List<Post> posts;
+  PostsRefreshedState(this.posts);
+}

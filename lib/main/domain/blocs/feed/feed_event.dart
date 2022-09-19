@@ -4,3 +4,5 @@ part of 'feed_bloc.dart';
 abstract class FeedEvent {}
 
 class GetPostsEvent extends FeedEvent {}
+
+class RefreshPostsEvent extends FeedEvent {}

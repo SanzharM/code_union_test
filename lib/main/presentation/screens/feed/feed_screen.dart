@@ -36,25 +36,34 @@ class _FeedScreenState extends State<FeedScreen> {
         title: 'Лента',
         needLeading: false,
       ),
-      body: BlocConsumer<FeedBloc, FeedState>(
-        bloc: bloc,
-        listener: (context, state) {},
-        builder: (context, state) {
-          final isLoading = state is PostsLoadingState;
-          return CustomShimmer(
-            isLoading: isLoading,
-            child: ListView.separated(
-              shrinkWrap: true,
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.all(AppConstraints.padding),
-              itemCount: state is PostsLoadedState ? state.posts.length : 3,
-              separatorBuilder: (_, sep) => const SizedBox(height: AppConstraints.padding),
-              itemBuilder: (_, i) => PostCard(
-                post: state is PostsLoadedState ? state.posts[i] : const Post(),
-              ),
-            ),
-          );
-        },
+      body: RefreshIndicator(
+        onRefresh: () async => bloc.refresh(),
+        child: BlocConsumer<FeedBloc, FeedState>(
+          bloc: bloc,
+          listener: (context, state) {},
+          builder: (context, state) {
+            final isLoading = state is PostsLoadingState;
+            if (state is PostsLoadedState && state.posts.isEmpty) {
+              return const Center(
+                child: Text('Список пуст'),
+              );
+            } else {
+              return CustomShimmer(
+                isLoading: isLoading,
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.all(AppConstraints.padding),
+                  itemCount: state is PostsLoadedState ? state.posts.length : 3,
+                  separatorBuilder: (_, sep) => const SizedBox(height: AppConstraints.padding),
+                  itemBuilder: (_, i) => PostCard(
+                    post: state is PostsLoadedState ? state.posts[i] : const Post(),
+                  ),
+                ),
+              );
+            }
+          },
+        ),
       ),
     );
   }

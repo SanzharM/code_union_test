@@ -1,4 +1,5 @@
 import 'package:code_union_test/core/constants/app_colors.dart';
+import 'package:code_union_test/main/presentation/app_router.dart';
 import 'package:code_union_test/main/presentation/widgets/buttons/app_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -40,7 +41,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
           ? leading ??
               AppIconButton(
                 icon: const Icon(Icons.arrow_back_ios_new_sharp),
-                onPressed: () => Navigator.of(context).canPop() ? Navigator.of(context).pop() : null,
+                onPressed: () => AppRouter.back(context),
               )
           : null,
       automaticallyImplyLeading: automaticallyImplyLeading,

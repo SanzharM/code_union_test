@@ -87,7 +87,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       AlertController.showDecisionDialog(
                         context: context,
                         onYes: () => bloc.logout(),
-                        onNo: () => Navigator.of(context).pop(),
+                        onNo: () => AppRouter.back(context),
                         title: 'Вы уверены, что хотите выйти?',
                         barrierDismissable: false,
                       );
