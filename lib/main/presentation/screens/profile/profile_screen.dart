@@ -2,7 +2,8 @@ import 'package:code_union_test/core/constants/app_colors.dart';
 import 'package:code_union_test/core/constants/app_constraints.dart';
 import 'package:code_union_test/core/services/alert_controller.dart';
 import 'package:code_union_test/main/domain/blocs/profile/profile_bloc.dart';
-import 'package:code_union_test/main/presentation/widgets/app_icon.dart';
+import 'package:code_union_test/main/presentation/app_router.dart';
+import 'package:code_union_test/main/presentation/screens/authorization/login_screen.dart';
 import 'package:code_union_test/main/presentation/widgets/buttons/app_button.dart';
 import 'package:code_union_test/main/presentation/widgets/custom_appbar.dart';
 import 'package:code_union_test/main/presentation/widgets/custom_shimmer.dart';
@@ -46,6 +47,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           if (state is ProfileErrorState) {
             AlertController.showMessage(context: context, title: 'Ошибка', content: state.error);
           }
+
+          if (state is LogoutSuccessState) {
+            AppRouter.toLogin(context);
+          }
         },
         builder: (context, state) {
           return CustomShimmer(
@@ -78,7 +83,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     alignment: Alignment.centerLeft,
                     textStyle: Theme.of(context).textTheme.bodyMedium?.apply(color: AppColors.red),
                     backgroundColor: AppColors.transparent,
-                    onPressed: () => bloc.logout(),
+                    onPressed: () {
+                      AlertController.showDecisionDialog(
+                        context: context,
+                        onYes: () => bloc.logout(),
+                        onNo: () => Navigator.of(context).pop(),
+                        title: 'Вы уверены, что хотите выйти?',
+                        barrierDismissable: false,
+                      );
+                    },
                   ),
                 ),
               ],
